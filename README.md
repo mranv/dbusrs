@@ -1,6 +1,3 @@
-# dbusrs
-dbus based server & client tui based application using zbus crate in rust.
-
 ## Overview
 
 The zbus library provides a simple and efficient API for interacting with D-Bus (Desktop Bus) in Rust. It facilitates communication between various software components in a desktop environment or any system that utilizes D-Bus for inter-process communication.
