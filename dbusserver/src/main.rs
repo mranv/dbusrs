@@ -5,7 +5,7 @@ struct Greeter {
     count: u64
 }
 
-#[interface(name = "org.zbus.MyGreeter1")]
+#[interface(name = "com.atcults.anubhav")]
 impl Greeter {
     // Can be `async` as well.
     fn say_hello(&mut self, name: &str) -> String {
@@ -19,8 +19,8 @@ impl Greeter {
 async fn main() -> Result<(), Box<dyn Error>> {
     let greeter = Greeter { count: 0 };
     let _conn = connection::Builder::session()?
-        .name("org.zbus.MyGreeter")?
-        .serve_at("/org/zbus/MyGreeter", greeter)?
+        .name("com.atcults.anubhav")?
+        .serve_at("/com/atcults/anubhav", greeter)?
         .build()
         .await?;
 

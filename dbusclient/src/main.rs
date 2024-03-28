@@ -1,9 +1,9 @@
 use zbus::{Connection, Result, proxy};
 
 #[proxy(
-    interface = "org.zbus.MyGreeter1",
-    default_service = "org.zbus.MyGreeter",
-    default_path = "/org/zbus/MyGreeter"
+    interface = "com.atcults.anubhav",
+    default_service = "com.atcults.anubhav",
+    default_path = "/com/atcults/anubhav"
 )]
 trait MyGreeter {
     async fn say_hello(&self, name: &str) -> Result<String>;
@@ -16,7 +16,7 @@ async fn main() -> Result<()> {
 
     // `proxy` macro creates `MyGreeterProxy` based on `Notifications` trait.
     let proxy = MyGreeterProxy::new(&connection).await?;
-    let reply = proxy.say_hello("Maria").await?;
+    let reply = proxy.say_hello("Anubhav").await?;
     println!("{reply}");
 
     Ok(())
