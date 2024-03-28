@@ -1,4 +1,5 @@
-# dbus based server & client tui based application using zbus crate in rust.
+# dbusrs
+dbus based server & client tui based application using zbus crate in rust.
 
 ## Overview
 
