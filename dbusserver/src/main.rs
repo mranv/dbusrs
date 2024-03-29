@@ -1,23 +1,18 @@
 use std::{error::Error, future::pending};
 use zbus::{connection, interface};
 
-struct Greeter {
-    count: u64
-}
+struct Greeter;
 
 #[interface(name = "com.atcults.anubhav")]
 impl Greeter {
-    // Can be `async` as well.
-    fn say_hello(&mut self, name: &str) -> String {
-        self.count += 1;
-        format!("Hello {}! I have been called {} times.", name, self.count)
+    fn say_hello(&self, name: &str) -> String {
+        format!("Hello {}!", name)
     }
 }
 
-// Although we use `async-std` here, you can use any async runtime of choice.
 #[async_std::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let greeter = Greeter { count: 0 };
+    let greeter = Greeter;
     let _conn = connection::Builder::session()?
         .name("com.atcults.anubhav")?
         .serve_at("/com/atcults/anubhav", greeter)?
