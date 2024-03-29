@@ -13,27 +13,19 @@ trait MyGreeter {
 async fn client_task(name: &'static str) -> Result<()> {
     let connection = Connection::session().await?;
     let proxy = MyGreeterProxy::new(&connection).await?;
-    let reply = match proxy.say_hello(name).await {
-        Ok(reply) => reply,
-        Err(e) => {
-            eprintln!("Error: {}", e);
-            return Err(e.into());
-        }
-    };
-    println!("{}", reply);
-    Ok(())
+    
+    loop {
+        // Await the result of say_hello
+        let reply = proxy.say_hello(name).await?;
+        println!("{}", reply);
+        // Sleep for a short duration before sending the next message
+        task::sleep(std::time::Duration::from_secs(1)).await;
+    }
 }
 
 #[async_std::main]
 async fn main() -> Result<()> {
-    let clients = vec![
-    "Alice", "Bob", "Charlie", "David", "Emma", "Frank", "Grace", "Henry", "Isabella", "Jack",
-    "Katherine", "Liam", "Mia", "Noah", "Olivia", "Peter", "Quinn", "Rachel", "Samuel", "Taylor",
-    "Ursula", "Victor", "Wendy", "Xavier", "Yvonne", "Zachary", "Abigail", "Benjamin", "Catherine",
-    "Daniel", "Eleanor", "Finn", "Gabriella", "Harry", "Isabelle", "James", "Kaitlyn", "Landon",
-    "Madison", "Nathan", "Oliver", "Penelope", "Quentin", "Rebecca", "Sarah", "Thomas", "Uma",
-    "Vincent", "Willa", "Xander", "Yasmine", "Zara",
-    ];
+    let clients = vec!["Alice", "Bob", "Charlie"];
 
     let client_tasks = clients.into_iter().map(|name| {
         task::spawn(async move {
